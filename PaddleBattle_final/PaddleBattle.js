@@ -39,7 +39,7 @@ var canvas = null;
 
 // A collection of values we associate with Player 1: the current position of their paddle as (x, y) coordinates, the shape of their
 // paddle as width and height values, and their current score.
-var Player1 = {
+var player1 = {
   x: 10,
   y: BOARD_HALF_HEIGHT,
   width: PADDLE_WIDTH,
@@ -49,7 +49,7 @@ var Player1 = {
 
 // A collection of values we associate with Player 2: the current position of their paddle as (x, y) coordinates, the shape of their
 // paddle as width and height values, and their current score.
-var Player2 = {
+var player2 = {
   x: BOARD_WIDTH_PIXELS - 10,
   y: BOARD_HALF_HEIGHT,
   width: PADDLE_WIDTH,
@@ -57,9 +57,9 @@ var Player2 = {
   score: 0
 };
 
-// A collection of values we associate with the Ball: the current position of the ball as (x, y) coordinates, the shape of the
+// A collection of values we associate with the ball: the current position of the ball as (x, y) coordinates, the shape of the
 // ball as width, height, and radius values, and the current velocity.
-var Ball = {
+var ball = {
   x: BOARD_HALF_WIDTH,
   y: BOARD_HALF_HEIGHT,
   width: 10,
@@ -105,9 +105,9 @@ function onLoad() {
  */
 function resetBallPosition() {
   var angle = Math.random() * Math.PI * 2;
-  Ball.x = BOARD_HALF_WIDTH;
-  Ball.y = BOARD_HALF_HEIGHT;
-  Ball.velocity = {
+  ball.x = BOARD_HALF_WIDTH;
+  ball.y = BOARD_HALF_HEIGHT;
+  ball.velocity = {
     x: 4 * Math.cos(angle),
     y: 4 * Math.sin(angle)
   };
@@ -170,44 +170,44 @@ function drawCircle(color, x, y, radius) {
 function step() {
   // Increment the ball's position in the y dimension, and bounce it off the ceiling or floor.
   // Out of bounds is 8 pixels outside of the board.
-  Ball.y += Ball.velocity.y;
-  if (Ball.y < 8 || Ball.y > BOARD_HEIGHT_PIXELS - 8) {
-    Ball.velocity.y = -Ball.velocity.y;
+  ball.y += ball.velocity.y;
+  if (ball.y < 8 || ball.y > BOARD_HEIGHT_PIXELS - 8) {
+    ball.velocity.y = -ball.velocity.y;
   }
 
   // Increment the ball's position in the y dimension based on its current velocity. We do this
   // in small steps (1/20th ball speed) to ensure a fast moving ball does not warp through the paddle.
-  var xIncrement = Ball.velocity.x / 20;
+  var xIncrement = ball.velocity.x / 20;
   for (var x = 0; x < 20; x++) {
-    Ball.x += xIncrement;
+    ball.x += xIncrement;
 
     // If the ball hits Player 1's paddle, bounce off by negating velocity,
     // increase the velocity, and set the xIncrement.
-    if (checkCollision(Player1, Ball) && Ball.velocity.x < 0) {
-      Ball.velocity.x = -Ball.velocity.x;
-      Ball.velocity.x += 0.5;
-      xIncrement = Ball.velocity.x / 20;
+    if (checkCollision(player1, ball) && ball.velocity.x < 0) {
+      ball.velocity.x = -ball.velocity.x;
+      ball.velocity.x += 0.5;
+      xIncrement = ball.velocity.x / 20;
     }
 
     // If the ball hits Player 2's paddle, bounce off by negating velocity,
     // increase the velocity, and set the xIncrement.
-    if (checkCollision(Player2, Ball) && Ball.velocity.x > 0) {
-      Ball.velocity.x = -Ball.velocity.x;
-      Ball.velocity.x -= 0.5;
-      xIncrement = Ball.velocity.x / 20;
+    if (checkCollision(player2, ball) && ball.velocity.x > 0) {
+      ball.velocity.x = -ball.velocity.x;
+      ball.velocity.x -= 0.5;
+      xIncrement = ball.velocity.x / 20;
     }
   }
 
   // If Player 1 scores on Player 2, increase Player 1's score, and reset the ball.
   // Out-of-bounds is 30 pixels outside of the board.
-  if (Ball.x > BOARD_WIDTH_PIXELS + 30) {
-    Player1.score++;
+  if (ball.x > BOARD_WIDTH_PIXELS + 30) {
+    player1.score++;
     resetBallPosition();
   }
   // If Player 2 scores on Player 1, increase Player 2's score, and reset the ball.
   // Out-of-bounds is 30 pixels outside of the board.
-  else if (Ball.x < -30) {
-    Player2.score++;
+  else if (ball.x < -30) {
+    player2.score++;
     resetBallPosition();
   }
 }
@@ -218,33 +218,33 @@ function step() {
 function handleInput() {
   // Player 1 down.
   if (keyPresses[KEY_PRESS_S]) {
-    Player1.y += 4;
-    if (Player1.y > PADDLE_BOTTOM_LIMIT) {
-      Player1.y = PADDLE_BOTTOM_LIMIT;
+    player1.y += 4;
+    if (player1.y > PADDLE_BOTTOM_LIMIT) {
+      player1.y = PADDLE_BOTTOM_LIMIT;
     }
   }
 
   // Player 1 up.
   else if (keyPresses[KEY_PRESS_W]) {
-    Player1.y -= 4;
-    if (Player1.y < PADDLE_TOP_LIMIT) {
-      Player1.y = PADDLE_TOP_LIMIT;
+    player1.y -= 4;
+    if (player1.y < PADDLE_TOP_LIMIT) {
+      player1.y = PADDLE_TOP_LIMIT;
     }
   }
 
   // Player 2 down.
   if (keyPresses[KEY_PRESS_DOWN]) {
-    Player2.y += 4;
-    if (Player2.y > PADDLE_BOTTOM_LIMIT) {
-      Player2.y = PADDLE_BOTTOM_LIMIT;
+    player2.y += 4;
+    if (player2.y > PADDLE_BOTTOM_LIMIT) {
+      player2.y = PADDLE_BOTTOM_LIMIT;
     }
   }
 
   // Player 2 up.
   else if (keyPresses[KEY_PRESS_UP]) {
-    Player2.y -= 4;
-    if (Player2.y < PADDLE_TOP_LIMIT) {
-      Player2.y = PADDLE_TOP_LIMIT;
+    player2.y -= 4;
+    if (player2.y < PADDLE_TOP_LIMIT) {
+      player2.y = PADDLE_TOP_LIMIT;
     }
   }
 }
@@ -257,13 +257,13 @@ function drawGame() {
   drawRect("black", BOARD_HALF_WIDTH, BOARD_HALF_HEIGHT, BOARD_WIDTH_PIXELS, BOARD_HEIGHT_PIXELS);
 
   // The ball.
-  drawCircle("red", Ball.x, Ball.y, Ball.radius);
+  drawCircle("red", ball.x, ball.y, ball.radius);
 
   // Player 1's paddle.
-  drawRect("white", Player1.x, Player1.y, Player1.width, Player1.height);
+  drawRect("white", player1.x, player1.y, player1.width, player1.height);
 
   // Player 2's paddle.
-  drawRect("white", Player2.x, Player2.y, Player2.width, Player2.height);
+  drawRect("white", player2.x, player2.y, player2.width, player2.height);
 
   // Top and bottom of the board in a solid green line.
   // We don't want to draw on top of our board, so these lines are drawn right outside the limits of the board.
@@ -286,6 +286,6 @@ function drawGame() {
   canvas.fillStyle = "orange";
   canvas.font = "20px Arial";
   canvas.textAlign = "center";
-  canvas.fillText(Player1.score, BOARD_HALF_WIDTH - 40, BOARD_HEIGHT_PIXELS - 10);
-  canvas.fillText(Player2.score, BOARD_HALF_WIDTH + 40, BOARD_HEIGHT_PIXELS - 10);
+  canvas.fillText(player1.score, BOARD_HALF_WIDTH - 40, BOARD_HEIGHT_PIXELS - 10);
+  canvas.fillText(player2.score, BOARD_HALF_WIDTH + 40, BOARD_HEIGHT_PIXELS - 10);
 }

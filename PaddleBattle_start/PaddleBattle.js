@@ -39,7 +39,7 @@ var canvas = null;
 
 // A collection of values we associate with Player 1: the current position of their paddle as (x, y) coordinates, the shape of their
 // paddle as width and height values, and their current score.
-var Player1 = {
+var player1 = {
   x: 10,
   y: BOARD_HALF_HEIGHT,
   width: PADDLE_WIDTH,
@@ -49,7 +49,7 @@ var Player1 = {
 
 // A collection of values we associate with Player 2: the current position of their paddle as (x, y) coordinates, the shape of their
 // paddle as width and height values, and their current score.
-var Player2 = {
+var player2 = {
   x: BOARD_WIDTH_PIXELS - 10,
   y: BOARD_HALF_HEIGHT,
   width: PADDLE_WIDTH,
@@ -57,9 +57,9 @@ var Player2 = {
   score: 0
 };
 
-// A collection of values we associate with the Ball: the current position of the ball as (x, y) coordinates, the shape of the
+// A collection of values we associate with the ball: the current position of the ball as (x, y) coordinates, the shape of the
 // ball as width, height, and radius values, and the current velocity.
-var Ball = {
+var ball = {
   x: BOARD_HALF_WIDTH,
   y: BOARD_HALF_HEIGHT,
   width: 10,
@@ -81,9 +81,9 @@ var keyPresses = {
  */
 function resetBallPosition() {
   var angle = Math.random() * Math.PI * 2;
-  Ball.x = BOARD_HALF_WIDTH;
-  Ball.y = BOARD_HALF_HEIGHT;
-  Ball.velocity = {
+  ball.x = BOARD_HALF_WIDTH;
+  ball.y = BOARD_HALF_HEIGHT;
+  ball.velocity = {
     x: 4 * Math.cos(angle),
     y: 4 * Math.sin(angle)
   };
@@ -136,28 +136,28 @@ function drawCircle(color, x, y, radius) {
  * Helper function to see if an object has hit the bottom of the game board.
  */
 function isOffBoardBottom(object) {
-  return object.y > BOARD_HEIGHT_PIXELS - (object.height / 2);
+  return object.y > PADDLE_BOTTOM_LIMIT;
 }
 
 /**
  * Helper function to see if an object has hit the top of the game board.
  */
 function isOffBoardTop(object) {
-  return object.y < (object.height / 2);
+  return object.y < PADDLE_TOP_LIMIT;
 }
 
 /**
  * Helper function to see if an object has reached the left side of the game board.
  */
 function isOffBoardLeft(object) {
-  return object.x < 0;
+  return object.x < -30;
 }
 
 /**
  * Helper function to see if an object has reached the right side of the game board.
  */
 function isOffBoardRight(object) {
-  return object.x > BOARD_WIDTH_PIXELS;
+  return object.x > BOARD_WIDTH_PIXELS + 30;
 }
 
 /**
@@ -227,5 +227,23 @@ function step() {
  * Draw our game board, two paddles, and ball.
  */
 function drawGame() {
+  // Game board.
+  drawRect("black", BOARD_HALF_WIDTH, BOARD_HALF_HEIGHT, BOARD_WIDTH_PIXELS, BOARD_HEIGHT_PIXELS);
 
+  // Top and bottom of the board in a solid green line.
+  // We don't want to draw on top of our board, so these lines are drawn right outside the limits of the board.
+  canvas.beginPath();
+  canvas.setLineDash([0, 0]);
+  canvas.lineWidth = 5;
+  canvas.rect(-4, 2, BOARD_WIDTH_PIXELS + 8, BOARD_HEIGHT_PIXELS - 4);
+  canvas.strokeStyle = "green";
+  canvas.stroke();
+
+  // Exact middle of the board in a faint dashed green line.
+  canvas.beginPath();
+  canvas.setLineDash([15, 10]);
+  canvas.rect(BOARD_HALF_WIDTH, 0, BOARD_HALF_WIDTH, BOARD_HEIGHT_PIXELS);
+  canvas.lineWidth = 1;
+  canvas.strokeStyle = "green";
+  canvas.stroke();
 }
