@@ -10,29 +10,29 @@
  * instead of "magic values/numbers" across the code.
  */
 // The size of our board and paddles in pixels.
-var BOARD_WIDTH_PIXELS = 800;
-var BOARD_HEIGHT_PIXELS = 400;
-var PADDLE_WIDTH = 5;
-var PADDLE_HEIGHT = 40;
+const BOARD_WIDTH_PIXELS = 800;
+const BOARD_HEIGHT_PIXELS = 400;
+const PADDLE_WIDTH = 5;
+const PADDLE_HEIGHT = 40;
 
 // Some common math constants.
-var BOARD_HALF_WIDTH = BOARD_WIDTH_PIXELS / 2;
-var BOARD_HALF_HEIGHT = BOARD_HEIGHT_PIXELS / 2;
-var PADDLE_HALF_HEIGHT = PADDLE_HEIGHT / 2;
+const BOARD_HALF_WIDTH = BOARD_WIDTH_PIXELS / 2;
+const BOARD_HALF_HEIGHT = BOARD_HEIGHT_PIXELS / 2;
+const PADDLE_HALF_HEIGHT = PADDLE_HEIGHT / 2;
 
 // Constants that make drawing the board easier.
-var BOARD_X = BOARD_HALF_WIDTH;
-var BOARD_Y = BOARD_HALF_HEIGHT;
+const BOARD_X = BOARD_HALF_WIDTH;
+const BOARD_Y = BOARD_HALF_HEIGHT;
 
 // The x and y limits for the player paddles.
-var PADDLE_TOP_LIMIT = PADDLE_HALF_HEIGHT + 5;
-var PADDLE_BOTTOM_LIMIT = BOARD_HEIGHT_PIXELS - PADDLE_HALF_HEIGHT - 5;
+const PADDLE_TOP_LIMIT = PADDLE_HALF_HEIGHT + 5;
+const PADDLE_BOTTOM_LIMIT = BOARD_HEIGHT_PIXELS - PADDLE_HALF_HEIGHT - 5;
 
 // ASCII key codes stored as constants for readability.
-var KEY_PRESS_W = 87;
-var KEY_PRESS_S = 83;
-var KEY_PRESS_DOWN = 40;
-var KEY_PRESS_UP = 38;
+const KEY_PRESS_W = 87;
+const KEY_PRESS_S = 83;
+const KEY_PRESS_DOWN = 40;
+const KEY_PRESS_UP = 38;
 
 /**
  * These are our game state variables. Variables are used to store pieces of data such as numbers, strings, boolean values, etc.
@@ -108,7 +108,7 @@ function onLoad() {
  * Initialize position and a random starting velocity for the ball, where the x and y velocities are between -5 and 5.
  */
 function resetBallPosition() {
-  var angle = Math.random() * Math.PI * 2;
+  let angle = Math.random() * Math.PI * 2;
   ball.x = BOARD_HALF_WIDTH;
   ball.y = BOARD_HALF_HEIGHT;
   ball.velocity = {
@@ -181,8 +181,8 @@ function step() {
 
   // Increment the ball's position in the y dimension based on its current velocity. We do this
   // in small steps (1/20th ball speed) to ensure a fast moving ball does not warp through the paddle.
-  var xIncrement = ball.velocity.x / 20;
-  for (var x = 0; x < 20; x++) {
+  let xIncrement = ball.velocity.x / 20;
+  for (let x = 0; x < 20; x++) {
     ball.x += xIncrement;
 
     // If the ball hits Player 1's paddle, bounce off by negating velocity,
