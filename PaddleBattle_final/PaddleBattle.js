@@ -29,10 +29,10 @@ const PADDLE_TOP_LIMIT = PADDLE_HALF_HEIGHT + 5;
 const PADDLE_BOTTOM_LIMIT = BOARD_HEIGHT_PIXELS - PADDLE_HALF_HEIGHT - 5;
 
 // ASCII key codes stored as constants for readability.
-const KEY_PRESS_W = 87;
-const KEY_PRESS_S = 83;
-const KEY_PRESS_DOWN = 40;
-const KEY_PRESS_UP = 38;
+const KEY_PRESS_W = "KeyW";
+const KEY_PRESS_S = "KeyS";
+const KEY_PRESS_DOWN = "ArrowDown";
+const KEY_PRESS_UP = "ArrowUp";
 
 /**
  * These are our game state variables. Variables are used to store pieces of data such as numbers, strings, boolean values, etc.
