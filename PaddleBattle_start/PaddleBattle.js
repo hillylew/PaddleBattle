@@ -140,28 +140,28 @@ function drawCircle(color, x, y, radius) {
  * Helper function to see if an object has hit the bottom of the game board.
  */
 function isOffBoardBottom(object) {
-  return object.y > PADDLE_BOTTOM_LIMIT;
+  return object.y > BOARD_HEIGHT_PIXELS - (object.height / 2);
 }
 
 /**
  * Helper function to see if an object has hit the top of the game board.
  */
 function isOffBoardTop(object) {
-  return object.y < PADDLE_TOP_LIMIT;
+  return object.y < (object.height / 2);
 }
 
 /**
  * Helper function to see if an object has reached the left side of the game board.
  */
 function isOffBoardLeft(object) {
-  return object.x < -30;
+  return object.x < 0;
 }
 
 /**
  * Helper function to see if an object has reached the right side of the game board.
  */
 function isOffBoardRight(object) {
-  return object.x > BOARD_WIDTH_PIXELS + 30;
+  return object.x > BOARD_WIDTH_PIXELS;
 }
 
 /**
