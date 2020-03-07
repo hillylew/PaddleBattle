@@ -20,6 +20,10 @@ var BOARD_HALF_WIDTH = BOARD_WIDTH_PIXELS / 2;
 var BOARD_HALF_HEIGHT = BOARD_HEIGHT_PIXELS / 2;
 var PADDLE_HALF_HEIGHT = PADDLE_HEIGHT / 2;
 
+// Constants that make drawing the board easier.
+var BOARD_X = BOARD_HALF_WIDTH;
+var BOARD_Y = BOARD_HALF_HEIGHT;
+
 // The x and y limits for the player paddles.
 var PADDLE_TOP_LIMIT = PADDLE_HALF_HEIGHT + 5;
 var PADDLE_BOTTOM_LIMIT = BOARD_HEIGHT_PIXELS - PADDLE_HALF_HEIGHT - 5;
@@ -227,23 +231,5 @@ function step() {
  * Draw our game board, two paddles, and ball.
  */
 function drawGame() {
-  // Game board.
-  drawRect("black", BOARD_HALF_WIDTH, BOARD_HALF_HEIGHT, BOARD_WIDTH_PIXELS, BOARD_HEIGHT_PIXELS);
 
-  // Top and bottom of the board in a solid green line.
-  // We don't want to draw on top of our board, so these lines are drawn right outside the limits of the board.
-  canvas.beginPath();
-  canvas.setLineDash([0, 0]);
-  canvas.lineWidth = 5;
-  canvas.rect(-4, 2, BOARD_WIDTH_PIXELS + 8, BOARD_HEIGHT_PIXELS - 4);
-  canvas.strokeStyle = "green";
-  canvas.stroke();
-
-  // Exact middle of the board in a faint dashed green line.
-  canvas.beginPath();
-  canvas.setLineDash([15, 10]);
-  canvas.rect(BOARD_HALF_WIDTH, 0, BOARD_HALF_WIDTH, BOARD_HEIGHT_PIXELS);
-  canvas.lineWidth = 1;
-  canvas.strokeStyle = "green";
-  canvas.stroke();
 }

@@ -20,6 +20,10 @@ var BOARD_HALF_WIDTH = BOARD_WIDTH_PIXELS / 2;
 var BOARD_HALF_HEIGHT = BOARD_HEIGHT_PIXELS / 2;
 var PADDLE_HALF_HEIGHT = PADDLE_HEIGHT / 2;
 
+// Constants that make drawing the board easier.
+var BOARD_X = BOARD_HALF_WIDTH;
+var BOARD_Y = BOARD_HALF_HEIGHT;
+
 // The x and y limits for the player paddles.
 var PADDLE_TOP_LIMIT = PADDLE_HALF_HEIGHT + 5;
 var PADDLE_BOTTOM_LIMIT = BOARD_HEIGHT_PIXELS - PADDLE_HALF_HEIGHT - 5;
@@ -88,12 +92,12 @@ function onLoad() {
 
   // Every time a key is pressed, store it to be processed in the game loop.
   document.addEventListener('keydown', function (event) {
-    keyPresses[event.keyCode] = true;
+    keyPresses[event.code] = true;
   });
 
   // Make sure to set the key press to false when it's done being "pressed".
   document.addEventListener('keyup', function (event) {
-    keyPresses[event.keyCode] = false;
+    keyPresses[event.code] = false;
   });
 
   // Setup a new game.
@@ -254,7 +258,7 @@ function handleInput() {
  */
 function drawGame() {
   // Game board.
-  drawRect("black", BOARD_HALF_WIDTH, BOARD_HALF_HEIGHT, BOARD_WIDTH_PIXELS, BOARD_HEIGHT_PIXELS);
+  drawRect("black", BOARD_X, BOARD_Y, BOARD_WIDTH_PIXELS, BOARD_HEIGHT_PIXELS);
 
   // The ball.
   drawCircle("red", ball.x, ball.y, ball.radius);
@@ -277,8 +281,9 @@ function drawGame() {
   // Exact middle of the board in a faint dashed green line.
   canvas.beginPath();
   canvas.setLineDash([15, 10]);
-  canvas.rect(BOARD_HALF_WIDTH, 0, BOARD_HALF_WIDTH, BOARD_HEIGHT_PIXELS);
-  canvas.lineWidth = 1;
+  canvas.moveTo(BOARD_HALF_WIDTH, 0);
+  canvas.lineTo(BOARD_HALF_WIDTH, BOARD_HEIGHT_PIXELS);
+  canvas.lineWidth = 2;
   canvas.strokeStyle = "green";
   canvas.stroke();
 
